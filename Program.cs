@@ -23,8 +23,6 @@ namespace TestService
                     Console.WriteLine($"Connected to serial device on {portName}");
 
                     // Lees gegevens van de seriële poort (of schrijf indien nodig)
-                    string data = serialPort.ReadLine();
-                    Console.WriteLine("Received data: " + data);
 
                     // Sluit de verbinding wanneer je klaar bent
                     serialPort.Close();
