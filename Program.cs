@@ -7,7 +7,7 @@ namespace TestService
     {
         static void Main()
         {
-            string[] paths = { "/dev/serial/by-id", "/dev/serial/by-path" };
+            string[] paths = { "/dev/VehicleLeftController", "/dev/RemoteController" };
 
             Console.WriteLine("Virtual links of connected serial devices:");
 
