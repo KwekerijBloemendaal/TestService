@@ -1,41 +1,38 @@
 ﻿using System;
 using System.IO;
 
+using System.IO.Ports;
+
+
 namespace TestService
 {
     class Program
     {
         static void Main()
         {
-            string[] paths = { "/dev/VehicleLeftController", "/dev/RemoteController" };
+            string portName = "/dev/VehicleLeftController"; // Gebruik de door udev toegewezen naam
+            int baudRate = 9600; // Pas aan op basis van je apparaatvereisten
 
-            Console.WriteLine("Virtual links of connected serial devices:");
-
-            foreach (string path in paths)
+            try
             {
-                if (Directory.Exists(path))
+                using (SerialPort serialPort = new SerialPort(portName, baudRate))
                 {
-                    string[] symlinks = Directory.GetFiles(path);
+                    // Configureer eventueel andere instellingen zoals Parity, DataBits, StopBits
+                    serialPort.Open();
 
-                    foreach (string symlink in symlinks)
-                    {
-                        try
-                        {
-                            // Get the actual device file the symlink points to
-                            string target = Path.GetFullPath(symlink);
+                    Console.WriteLine($"Connected to serial device on {portName}");
 
-                            Console.WriteLine($"{symlink} -> {target}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Error reading symlink {symlink}: {ex.Message}");
-                        }
-                    }
+                    // Lees gegevens van de seriële poort (of schrijf indien nodig)
+                    string data = serialPort.ReadLine();
+                    Console.WriteLine("Received data: " + data);
+
+                    // Sluit de verbinding wanneer je klaar bent
+                    serialPort.Close();
                 }
-                else
-                {
-                    Console.WriteLine($"Directory '{path}' does not exist or is not accessible.");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
     }
