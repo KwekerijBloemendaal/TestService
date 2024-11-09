@@ -10,27 +10,58 @@ namespace TestService
     {
         static void Main()
         {
-            string portName = "/dev/VehicleLeftController"; // Gebruik de door udev toegewezen naam
-            int baudRate = 9600; // Pas aan op basis van je apparaatvereisten
+            //string portName = "/dev/VehicleLeftController"; // Gebruik de door udev toegewezen naam
+            //int baudRate = 9600; // Pas aan op basis van je apparaatvereisten
 
-            try
+            //try
+            //{
+            //    using (SerialPort serialPort = new SerialPort(portName, baudRate))
+            //    {
+            //        // Configureer eventueel andere instellingen zoals Parity, DataBits, StopBits
+            //        serialPort.Open();
+
+            //        Console.WriteLine($"Connected to serial device on {portName}");
+
+            //        // Lees gegevens van de seriële poort (of schrijf indien nodig)
+
+            //        // Sluit de verbinding wanneer je klaar bent
+            //        serialPort.Close();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"An error occurred: {ex.Message}");
+            //}
+
+            string[] paths = { "/dev/VehicleRightController", "/dev/RemoteController" };
+
+            Console.WriteLine("Virtual links of connected serial devices:");
+
+            foreach (string path in paths)
             {
-                using (SerialPort serialPort = new SerialPort(portName, baudRate))
+                if (Directory.Exists(path))
                 {
-                    // Configureer eventueel andere instellingen zoals Parity, DataBits, StopBits
-                    serialPort.Open();
+                    string[] symlinks = Directory.GetFiles(path);
 
-                    Console.WriteLine($"Connected to serial device on {portName}");
+                    foreach (string symlink in symlinks)
+                    {
+                        try
+                        {
+                            // Get the actual device file the symlink points to
+                            string target = Path.GetFullPath(symlink);
 
-                    // Lees gegevens van de seriële poort (of schrijf indien nodig)
-
-                    // Sluit de verbinding wanneer je klaar bent
-                    serialPort.Close();
+                            Console.WriteLine($"{symlink} -> {target}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error reading symlink {symlink}: {ex.Message}");
+                        }
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                else
+                {
+                    Console.WriteLine($"Directory '{path}' does not exist or is not accessible.");
+                }
             }
         }
     }
