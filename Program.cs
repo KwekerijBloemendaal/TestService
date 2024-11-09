@@ -50,7 +50,6 @@ namespace TestService
                 Console.WriteLine($"{devicePath} is niet beschikbaar.");
             }
         }
-        }
     }
 
 }
