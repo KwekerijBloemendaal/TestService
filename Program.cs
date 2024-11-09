@@ -37,7 +37,7 @@ namespace TestService
 
             Console.WriteLine("Virtual links of connected serial devices:");
 
-            string devicePath = "/dev/serial/VehicleRightController"; // Gebruik de door udev toegekende naam
+            string devicePath = "/dev/serial/RemoteController"; // Gebruik de door udev toegekende naam
 
             // Controleer of het apparaat beschikbaar is
             if (File.Exists(devicePath))
