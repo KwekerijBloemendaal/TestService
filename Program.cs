@@ -33,7 +33,7 @@ namespace TestService
             //    Console.WriteLine($"An error occurred: {ex.Message}");
             //}
 
-            string[] paths = { "/dev/VehicleRightController", "/dev/RemoteController" };
+            string[] paths = { "/dev/serial/VehicleRightController", "/dev/serial/RemoteController" };
 
             Console.WriteLine("Virtual links of connected serial devices:");
 
