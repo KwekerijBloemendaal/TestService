@@ -37,32 +37,19 @@ namespace TestService
 
             Console.WriteLine("Virtual links of connected serial devices:");
 
-            foreach (string path in paths)
+            string devicePath = "/dev/serial/VehicleRightController"; // Gebruik de door udev toegekende naam
+
+            // Controleer of het apparaat beschikbaar is
+            if (File.Exists(devicePath))
             {
-                if (Directory.Exists(path))
-                {
-                    string[] symlinks = Directory.GetFiles(path);
-
-                    foreach (string symlink in symlinks)
-                    {
-                        try
-                        {
-                            // Get the actual device file the symlink points to
-                            string target = Path.GetFullPath(symlink);
-
-                            Console.WriteLine($"{symlink} -> {target}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Error reading symlink {symlink}: {ex.Message}");
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Directory '{path}' does not exist or is not accessible.");
-                }
+                Console.WriteLine($"{devicePath} is beschikbaar.");
+                // Voeg hier eventueel code toe om een verbinding te maken met het apparaat
             }
+            else
+            {
+                Console.WriteLine($"{devicePath} is niet beschikbaar.");
+            }
+        }
         }
     }
 
